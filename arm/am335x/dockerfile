@@ -1,0 +1,44 @@
+# 使用原始镜像ubuntu:14.04;执行apt update && apt install make;添加当前目录下gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz到/opt下；在/usr/local/bin创建软链接，链接解压目录下bin中的gcc和g++；删除导入的压缩文件；添加当前目录下的cmake-3.20.2-linux-x86_64.tar.gz到/opt；在/usr/local/bin创建软链接，链接解压目录下bin中的cmake;删除导入的压缩文件。执行gcc -v;执行cmake --version;
+FROM ubuntu:14.04
+LABEL autor="wangjian"
+LABEL maintainer="656876071@qq.com"
+LABEL description="Dockerfile for arm-linux-gnueabihf"
+LABEL from="ubuntu14.04"
+LABEL gcc="gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf"
+LABEL cmake="3.20.2"
+LABEL version="1.0.0"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends make 
+#    rm -rf /var/lib/apt/lists/*
+
+# ADD 自动解压 .tar.xz 到 /opt/
+ADD gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz /opt/
+
+# 创建软链接（注意解压后的目录名）
+RUN ln -s /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc /usr/local/bin/gcc && \
+    ln -s /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-g++ /usr/local/bin/g++ \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc /usr/local/bin/gcc \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-g++ /usr/local/bin/g++ \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-ld /usr/local/bin/ld \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-ar /usr/local/bin/ar \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-as /usr/local/bin/as \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-nm /usr/local/bin/nm \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-objcopy /usr/local/bin/objcopy \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-objdump /usr/local/bin/objdump \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-readelf /usr/local/bin/readelf \
+    && ln -sf /opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-strip /usr/local/bin/strip
+
+# 环境变量 （=分割新格式）
+ENV PATH=/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin:$PATH
+
+# ADD 自动解压 .tar.gz 到 /opt/
+ADD cmake-3.20.2-linux-x86_64.tar.gz /opt/
+
+# 创建 cmake 软链接（注意解压后的目录名）
+RUN ln -s /opt/cmake-3.20.2-linux-x86_64/bin/cmake /usr/local/bin/cmake
+
+# 验证
+RUN gcc -v && cmake --version

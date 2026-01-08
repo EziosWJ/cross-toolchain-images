@@ -1,0 +1,3 @@
+# Detail
+
+For armhf 、armv7l ...
