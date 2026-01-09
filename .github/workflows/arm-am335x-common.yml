@@ -34,6 +34,6 @@ jobs:
         context: arm/am335x/common/
         push: true
         tags: |
-          ghcr.io/${{ DIR_REPOSITORY }}/${{ TARGET_DEV }}:latest
-          ghcr.io/${{ DIR_REPOSITORY }}/${{ TARGET_DEV }}:${{ TARGET_TAG }}
-          ghcr.io/${{ DIR_REPOSITORY }}/${{ TARGET_DEV }}:${{ github.sha }}
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:latest
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:${{ env.TARGET_TAG }}
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:${{ github.sha }}
