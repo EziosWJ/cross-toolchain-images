@@ -3,7 +3,7 @@ name: ARM am335x-gcc
 on:
   push:
     branches: [ main ]
-    paths: [ 'arm/am335x/**' ]
+    paths: [ 'arm/am335x/dockerfile','arm/am335x/dockerfile.gcc4.9' ]
   
   workflow_dispatch:
 env:
