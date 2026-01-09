@@ -22,13 +22,13 @@ jobs:
         include:
           - soc: am335x
             gcc: "7.5"
-            dockerfile: arm/am335x/Dockerfile
+            dockerfile: arm/am335x/dockerfile
             image: ghcr.io/ezioswj/toolchain/arm/am335x
             base_tag: ubuntu14.04-gcc7.5
 
           - soc: am335x
             gcc: "4.9"
-            dockerfile: arm/am335x/Dockerfile.gcc4.9
+            dockerfile: arm/am335x/dockerfile.gcc4.9
             image: ghcr.io/ezioswj/toolchain/arm/am335x
             base_tag: ubuntu14.04-gcc4.9
 
