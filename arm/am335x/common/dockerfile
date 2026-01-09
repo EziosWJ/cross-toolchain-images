@@ -1,8 +1,7 @@
-# 使用原始镜像ubuntu:14.04;执行apt update && apt install make;添加当前目录下gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz到/opt下；在/usr/local/bin创建软链接，链接解压目录下bin中的gcc和g++；删除导入的压缩文件；添加当前目录下的cmake-3.20.2-linux-x86_64.tar.gz到/opt；在/usr/local/bin创建软链接，链接解压目录下bin中的cmake;删除导入的压缩文件。执行gcc -v;执行cmake --version;
 FROM ubuntu:14.04
 LABEL autor="wangjian"
 LABEL maintainer="656876071@qq.com"
-LABEL description="Dockerfile for arm-linux-gnueabihf"
+LABEL org.opencontainers.image.description DESCRIPTION="Dockerfile for arm-linux-gnueabihf common image"
 LABEL from="ubuntu14.04"
 LABEL cmake="3.20.6"
 LABEL version="1.0.0"
@@ -32,6 +31,7 @@ RUN wget https://cmake.org/files/v3.20/cmake-3.20.6-linux-x86_64.tar.gz \
 ENV PATH=/opt/cmake/bin:$PATH
 # 验证
 RUN cmake --version
+
 
 
 
