@@ -16,7 +16,13 @@ RUN apt-get update && \
     xz-utils \
     python \
     ca-certificates \
-    libncurses5-dev
+    libncurses5-dev \
+    autoconf \
+    automake \
+    libtool \
+    m4 \
+    pkg-config \
+    && apt-get clean
 
 # 解压 .tar.gz 到 /opt/
 RUN wget https://cmake.org/files/v3.20/cmake-3.20.6-linux-x86_64.tar.gz \
