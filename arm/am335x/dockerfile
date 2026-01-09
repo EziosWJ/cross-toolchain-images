@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # ADD 自动解压 .tar.xz 到 /opt/
 RUN wget https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/arm-linux-gnueabihf/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz
-RUN tar -xvf gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz && mv gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf /opt/gcc
+RUN tar -xf gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz && mv gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf /opt/gcc
 ##############
 RUN ls /opt/gcc
 RUN ls /opt/gcc/bin

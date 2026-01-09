@@ -1,40 +1,59 @@
-name: ARM am335x-gcc
+name: Build am335x gcc images
 
 on:
   push:
     branches: [ main ]
     paths: [ 'arm/am335x/dockerfile','arm/am335x/dockerfile.gcc4.9' ]
-  
   workflow_dispatch:
 env:
-  DIR_REPOSITORY: ezioswj/toolchain
+  DIR_REPOSITORY: ghcr.io/ezioswj/toolchain
   TARGET_DEV: arm/am335x
-  GCC_VERSION: gcc7.5
   TARGET_TAG: 1.0
 jobs:
   build:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
-    
+
+    strategy:
+      matrix:
+        include:
+          - soc: am335x
+            gcc: "7.5"
+            dockerfile: arm/am335x/Dockerfile
+            image: ghcr.io/ezioswj/toolchain/arm/am335x
+            base_tag: ubuntu14.04-gcc7.5
+
+          - soc: am335x
+            gcc: "4.9"
+            dockerfile: arm/am335x/Dockerfile.gcc4.9
+            image: ghcr.io/ezioswj/toolchain/arm/am335x
+            base_tag: ubuntu14.04-gcc4.9
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Log in to GHCR
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: arm/am335x/
-        push: true
-        tags: |
-          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}/${{ env.GCC_VERSION }}:latest
-          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}/${{ env.GCC_VERSION }}:${{ env.TARGET_TAG }}
-          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}/${{ env.GCC_VERSION }}:${{ github.sha }}
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate short SHA
+        id: vars
+        run: |
+          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: |
+            ${{ matrix.image }}:${{ matrix.base_tag }}
+            ${{ matrix.image }}:${{ matrix.base_tag }}-${{ steps.vars.outputs.sha }}
