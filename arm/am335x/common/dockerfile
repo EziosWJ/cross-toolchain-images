@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 LABEL autor="wangjian"
 LABEL maintainer="656876071@qq.com"
-LABEL org.opencontainers.image.description DESCRIPTION="Dockerfile for arm-linux-gnueabihf common image"
+LABEL org.opencontainers.image.description="Dockerfile for arm-linux-gnueabihf common image"
 LABEL from="ubuntu14.04"
 LABEL cmake="3.20.6"
 LABEL version="1.0.0"
@@ -11,7 +11,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     make \
-    build-essential \
     wget \
     tar \
     xz-utils \
@@ -31,6 +30,7 @@ RUN wget https://cmake.org/files/v3.20/cmake-3.20.6-linux-x86_64.tar.gz \
 ENV PATH=/opt/cmake/bin:$PATH
 # 验证
 RUN cmake --version
+
 
 
 
