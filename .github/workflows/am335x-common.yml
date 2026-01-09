@@ -31,5 +31,5 @@ jobs:
         context: arm/am335x/common/
         push: true
         tags: |
-          ghcr.io/wangjian/toolchain/arm/am335x/common:latest
-          ghcr.io/wangjian/toolchain/arm/am335x/common:${{ github.sha }}
+          ghcr.io/ezioswj/toolchain/arm/am335x/common:latest
+          ghcr.io/ezioswj/toolchain/arm/am335x/common:${{ github.sha }}
