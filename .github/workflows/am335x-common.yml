@@ -1,0 +1,35 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'arm/am335x/common/**' ]
+  
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Log in to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: arm/am335x/common/
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository }}/arm/am335x/common:latest
+          ghcr.io/${{ github.repository }}/arm/am335x/common:${{ github.sha }}
