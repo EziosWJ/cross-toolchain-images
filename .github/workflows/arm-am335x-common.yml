@@ -7,7 +7,7 @@ on:
   
   workflow_dispatch:
 env:
-  REPOSITORY: ezioswj/toolchain
+  DIR_REPOSITORY: ezioswj/toolchain
   TARGET_DEV: arm/am335x/common
   TARGET_TAG: 1.0
 jobs:
@@ -34,6 +34,6 @@ jobs:
         context: arm/am335x/common/
         push: true
         tags: |
-          ghcr.io/${{ REPOSITORY }}/${{ TARGET_DEV }}:latest
-          ghcr.io/${{ REPOSITORY }}/${{ TARGET_DEV }}:${{ TARGET_TAG }}
-          ghcr.io/${{ REPOSITORY }}/${{ TARGET_DEV }}:${{ github.sha }}
+          ghcr.io/${{ DIR_REPOSITORY }}/${{ TARGET_DEV }}:latest
+          ghcr.io/${{ DIR_REPOSITORY }}/${{ TARGET_DEV }}:${{ TARGET_TAG }}
+          ghcr.io/${{ DIR_REPOSITORY }}/${{ TARGET_DEV }}:${{ github.sha }}
