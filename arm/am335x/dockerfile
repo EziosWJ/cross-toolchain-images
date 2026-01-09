@@ -14,7 +14,7 @@ RUN wget https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/a
 RUN tar -xvf gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz && mv gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf /opt/gcc
 
 # 环境变量 （=分割新格式）
-ENV PATH=/opt/gcc/bin:$PATH
+ENV PATH=/opt/gcc/arm-linux-gnueabihf/bin:$PATH
 
 # 验证
-RUN gcc -v
+RUN arm-linux-gnueabihf-gcc -v
