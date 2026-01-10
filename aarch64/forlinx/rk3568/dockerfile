@@ -1,0 +1,33 @@
+FROM ubuntu:20.04
+LABEL autor="wangjian"
+LABEL maintainer="656876071@qq.com"
+LABEL org.opencontainers.image.description="Dockerfile for aarch64-linux-gnu common image"
+LABEL from="ubuntu20.04"
+LABEL version="1.0.0"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    g++-9-aarch64-linux-gnu \
+    gcc-9-aarch64-linux-gnu \
+    cmake \
+    make \
+    wget \
+    tar \
+    xz-utils \
+    python \
+    ca-certificates \
+    libncurses5-dev \
+    autoconf \
+    automake \
+    libtool \
+    m4 \
+    pkg-config \
+    && apt-get clean
+
+# 软链接
+RUN ln -s /usr/bin/aarch64-linux-gnu-gcc-9 /usr/bin/aarch64-linux-gnu-gcc && \
+    ln -s /usr/bin/aarch64-linux-gnu-g++-9 /usr/bin/aarch64-linux-gnu-g++
+# 验证
+RUN aarch64-linux-gnu-gcc --version && cmake --version
