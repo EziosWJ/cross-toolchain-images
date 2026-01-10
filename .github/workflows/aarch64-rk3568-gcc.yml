@@ -1,0 +1,41 @@
+name: Aarch64 RK3568 GCC
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'aarch64/forlinx/rk3568/**' ]
+  
+  workflow_dispatch:
+env:
+  DIR_REPOSITORY: ezioswj/toolchain
+  GCC_VERSION: gcc-9
+  TARGET_DEV: aarch64/forlinx/rk3568
+  TARGET_TAG: 1.0
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Log in to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: aarch64/forlinx/rk3568/
+        push: true
+        tags: |
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:latest
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:${{ env.GCC_VERSION }}
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:${{ env.TARGET_TAG }}
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:${{ github.sha }}
