@@ -1,0 +1,39 @@
+name: Build x86_64 Luckfox 22.04 Common
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'x86_64/luckfox/22.04/**' ]
+  
+  workflow_dispatch:
+env:
+  DIR_REPOSITORY: ezioswj/toolchain
+  TARGET_DEV: x86_64/luckfox/22.04
+  TARGET_TAG: 1.0
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Log in to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: x86_64/luckfox/22.04/
+        push: true
+        tags: |
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:latest
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:${{ env.TARGET_TAG }}
+          ghcr.io/${{ env.DIR_REPOSITORY }}/${{ env.TARGET_DEV }}:${{ github.sha }}
